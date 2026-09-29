@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🏆 Cyberthon Winner's Portal • Final Champion Riddle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #050a14;
+  --bg-card: rgba(13, 23, 40, 0.94);
+  --gold-neon: #ffd700;
+  --cyan-neon: #00e5ff;
+  --primary-neon: #00ff9d;
+  --danger-neon: #ff3864;
+  --text-main: #e8f2ff;
+  --text-dim: #8ba5c4;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(255, 215, 0, 0.15) 0%, transparent 60%),
+    linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+canvas#confettiCanvas {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.portal-card {
+  max-width: 680px;
+  width: 100%;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 2px solid var(--gold-neon);
+  border-radius: 22px;
+  padding: 36px 30px;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.65), 0 0 35px rgba(255, 215, 0, 0.15);
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.trophy-badge {
+  font-size: 58px;
+  margin-bottom: 6px;
+  display: inline-block;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+h1 {
+  margin: 0 0 6px 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  background: linear-gradient(135deg, #ffffff, var(--gold-neon), #ff9900);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tag-winner {
+  display: inline-block;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid var(--gold-neon);
+  color: var(--gold-neon);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.riddle-box {
+  background: #030811;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 18px 0;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #fff;
+}
+
+.riddle-header {
+  font-size: 11px;
+  color: var(--gold-neon);
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Interactive Grid Matrix */
+.grid-container {
+  margin: 18px 0;
+  display: inline-block;
+  background: #02060e;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 229, 255, 0.25);
+}
+
+.grid-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan-neon);
+  margin-bottom: 8px;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 52px);
+  gap: 6px;
+  justify-content: center;
+}
+
+.grid-cell {
+  width: 52px;
+  height: 44px;
+  background: #071322;
+  border: 1px solid #1c3c63;
+  border-radius: 6px;
+  color: #8ba5c4;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.grid-cell:hover {
+  background: #14355a;
+  border-color: var(--cyan-neon);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.grid-cell.target-active {
+  background: rgba(255, 215, 0, 0.25);
+  border-color: var(--gold-neon);
+  color: var(--gold-neon);
+  font-weight: bold;
+  box-shadow: 0 0 14px var(--gold-neon);
+  animation: targetGlow 1s infinite alternate;
+}
+
+@keyframes targetGlow {
+  from { box-shadow: 0 0 8px var(--gold-neon); }
+  to { box-shadow: 0 0 20px var(--gold-neon); }
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.coord-input {
+  flex: 1;
+  min-width: 220px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid #285482;
+  background: #030a14;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.coord-input:focus {
+  border-color: var(--gold-neon);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.3);
+}
+
+.btn-submit {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffd700, #ff8800);
+  color: #070d18;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.result-box {
+  margin-top: 18px;
+  min-height: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.result-box.error {
+  color: var(--danger-neon);
+  background: rgba(255, 51, 102, 0.1);
+  border: 1px solid rgba(255, 51, 102, 0.35);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.result-box.success {
+  background: rgba(255, 215, 0, 0.12);
+  border: 2px solid var(--gold-neon);
+  color: var(--gold-neon);
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+.certificate-box {
+  background: #02060f;
+  border: 1px dashed var(--gold-neon);
+  border-radius: 10px;
+  padding: 16px;
+  margin: 14px 0;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.token-badge {
+  display: inline-block;
+  background: rgba(0, 255, 157, 0.15);
+  border: 1px solid var(--primary-neon);
+  color: var(--primary-neon);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin: 8px 0;
+  word-break: break-all;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 22px;
+  color: var(--text-dim);
+  font-size: 13px;
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+.back-link:hover { color: var(--gold-neon); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<div class="portal-card">
+  <div class="trophy-badge">🏆</div>
+  <div class="tag-winner">VICTORY PORTAL • GRAND CHAMPION SECTOR</div>
+  <h1>CYBERTHON HALL OF CHAMPIONS</h1>
+  <p style="color: var(--text-dim); font-size: 14.5px; margin: 4px 0 16px;">
+    You solved the operational quests! Scan verified. To claim your Grand Champion status, solve the Final Sector Riddle:
+  </p>
+
+  <div class="riddle-box">
+    <div class="riddle-header">
+      <span>THE VAULT COORDINATE RIDDLE</span>
+      <span>SECTOR: 5x5 MATRIX</span>
+    </div>
+    <div style="color: #79ffe1; font-size: 15px; margin-bottom: 8px;">
+      "Look upon the security grid below.<br>
+      Count three rows down from the northern sky.<br>
+      Count four columns across from the western border.<br>
+      Where the 3rd row intersects the 4th column, the champion trophy is buried.<br><br>
+      <b>What are the target sector coordinates?</b>"
+    </div>
+    <div style="font-size: 12px; color: #8ba5c4;">
+      (Enter as <b>3,4</b> or <b>3rd row, 4th column</b> — or click the sector in the grid!)
+    </div>
+  </div>
+
+  <!-- Interactive 5x5 Matrix -->
+  <div class="grid-container">
+    <div class="grid-title">SECTOR MATRIX (ROW, COLUMN) • CLICK A CELL TO SELECT</div>
+    <div class="matrix-grid" id="matrixGrid"></div>
+  </div>
+
+  <div class="input-row">
+    <input type="text" class="coord-input" id="coordInput" placeholder="Enter coordinates (e.g. 3,4 or 4,3)..." autocomplete="off" onkeydown="if(event.key==='Enter') checkCoordinate()">
+    <button class="btn-submit" onclick="checkCoordinate()">Claim Champion Trophy</button>
+  </div>
+
+  <div class="result-box" id="resultBox"></div>
+
+  <a href="cyberthon_ctf_locked_download.html" class="back-link">⬅ Return to Main CYBERTHON Arena</a>
+</div>
+
+<script>
+// Generate 5x5 Matrix cells
+const gridEl = document.getElementById('matrixGrid');
+for (let r = 1; r <= 5; r++) {
+  for (let c = 1; c <= 5; c++) {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell';
+    cell.id = 'cell_' + r + '_' + c;
+    cell.textContent = r + ',' + c;
+    cell.title = 'Row ' + r + ', Column ' + c;
+    cell.onclick = () => selectCell(r, c);
+    gridEl.appendChild(cell);
+  }
+}
+
+function selectCell(r, c) {
+  document.getElementById('coordInput').value = r + ',' + c;
+  checkCoordinate();
+}
+
+function checkCoordinate() {
+  const raw = document.getElementById('coordInput').value.trim().toLowerCase();
+  const res = document.getElementById('resultBox');
+
+  // Normalized check
+  // Accepts: 3,4 | 3, 4 | (3,4) | (3, 4) | 4,3 | 4, 3 | (4,3) | 3rd row 4th column | 4th row 3rd column
+  const isMatch = (
+    raw === '3,4' || raw === '3, 4' || raw === '(3,4)' || raw === '(3, 4)' ||
+    raw === '4,3' || raw === '4, 3' || raw === '(4,3)' || raw === '(4, 3)' ||
+    raw.includes('3rd row') && raw.includes('4th col') ||
+    raw.includes('4th row') && raw.includes('3rd col') ||
+    raw.includes('row 3') && raw.includes('col 4') ||
+    raw.includes('row 4') && raw.includes('col 3') ||
+    raw === '3 4' || raw === '4 3'
+  );
+
+  if (isMatch) {
+    // Highlight cells [3,4] and [4,3]
+    document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('target-active'));
+    const targetCell = document.getElementById('cell_3_4');
+    if (targetCell) targetCell.classList.add('target-active');
+
+    res.className = 'result-box success';
+    res.innerHTML = `
+      <div style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">🎉 COORDINATES VERIFIED: [3, 4]!</div>
+      <div style="font-size: 14px; color: #fff;">You unraveled the Riddle of the 3rd Row and 4th Column!</div>
+      <div class="certificate-box">
+        <div style="font-size: 15px; font-weight: bold; color: var(--gold-neon); margin-bottom: 4px;">🏆 CYBERTHON GRAND CHAMPION CERTIFICATE 🏆</div>
+        <div>Sector Coordinates: <b>Row 3, Column 4</b> [Verified]</div>
+        <div>Master Token:</div>
+        <div class="token-badge">CHAMPION-SECTOR-3-4-GOLDEN-KEY</div>
+        <div style="color: #b8d4f5; font-size: 12px; margin-top: 6px;">Congratulations! You have conquered all challenges and completed the CYBERTHON 2026 Arena with supreme distinction!</div>
+      </div>
+    `;
+
+    launchConfetti();
+  } else {
+    res.className = 'result-box error';
+    res.textContent = '✗ Incorrect coordinate! Look closely at the riddle: 3 rows down (Row 3) and 4 columns across (Column 4). Try entering: 3,4';
+  }
+}
+
+// Celebration Confetti Cannon
+function launchConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const pieces = [];
+  const colors = ['#ffd700', '#ff9900', '#00ff9d', '#00e5ff', '#ff3864', '#ffffff'];
+
+  for (let i = 0; i < 140; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 3 + 2,
+      speedX: (Math.random() - 0.5) * 3,
+      rotation: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 6
+    });
+  }
+
+  let frames = 0;
+  function render() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rotation += p.rotSpeed;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      ctx.restore();
+
+      if (p.y > canvas.height) {
+        p.y = -10;
+        p.x = Math.random() * canvas.width;
+      }
+    });
+
+    frames++;
+    if (frames < 360) {
+      requestAnimationFrame(render);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  render();
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CYBERTHON - Beginner CTF</title>
+<style>
+  *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#07111f;color:#eaf2ff;min-height:100vh}
+  header{padding:34px 20px;text-align:center;background:linear-gradient(135deg,#07111f,#102b4e);border-bottom:1px solid #1c4778}
+  h1{margin:0;font-size:40px;letter-spacing:3px} header p{color:#9ec9ff;margin:10px 0 0}
+  .wrap{max-width:920px;margin:30px auto;padding:0 18px}.score{display:flex;justify-content:space-between;gap:10px;background:#0d1d31;padding:16px 20px;border:1px solid #214a75;border-radius:12px;margin-bottom:22px;font-weight:bold}
+  .card{background:#0d1d31;border:1px solid #214a75;border-radius:14px;padding:24px;margin:18px 0;box-shadow:0 8px 25px rgba(0,0,0,.2)}
+  .tag{display:inline-block;background:#14375e;color:#a9d3ff;border-radius:20px;padding:6px 11px;font-size:12px}.points{float:right;color:#75f0aa;font-weight:bold}
+  h2{margin:16px 0 8px}.mission{color:#bfd0e5;line-height:1.6}.fake-site{margin:18px 0;background:#fff;color:#15202b;padding:26px;border-radius:9px;text-align:center}
+  input{width:100%;padding:13px;border-radius:8px;border:1px solid #315b86;background:#071522;color:#fff;font-size:16px;margin-top:10px}
+  button{margin-top:10px;padding:11px 16px;border:0;border-radius:8px;background:#2c83e8;color:#fff;font-weight:bold;cursor:pointer}button:hover{background:#4097f5}.hint{background:#182b3f}.result{min-height:24px;margin-top:12px;font-weight:bold}.hintText{display:none;color:#ffd978;background:#15263a;padding:10px;border-radius:8px;margin-top:10px}.locked{opacity:.45;pointer-events:none}.footer{text-align:center;color:#7893af;padding:30px}.tiny{font-size:12px;color:#8198b1}
+</style>
+</head>
+<body>
+<header><h1>CYBERTHON</h1><p>Beginner Capture The Flag • Training Arena</p></header>
+<div class="wrap">
+ <div class="score"><span>🏁 Flags: <span id="flags">0</span>/3</span><span>🏆 Score: <span id="score">0</span>/300</span></div>
+
+ <section class="card" id="level1">
+  <span class="tag">LEVEL 1 • WEB</span><span class="points">100 POINTS</span>
+  <h2>🔎 Inspect Me</h2>
+  <p class="mission">A flag is hidden somewhere inside this webpage. It is <b>not visible normally</b>. Inspect the page source and find it.</p>
+  <div class="fake-site"><h3>WELCOME, AGENT</h3><p>There is nothing suspicious here... or is there?</p></div>
+  <!-- FLAG{FIRST_INSPECTION} -->
+  <input id="answer1" placeholder="Enter FLAG{...}">
+  <button onclick="check(1,'FLAG{FIRST_INSPECTION}')">Submit Flag</button>
+  <button class="hint" onclick="hint(1)">Hint</button>
+  <div class="hintText" id="hint1">On Chrome, press <b>Ctrl + U</b> to view the page source, then search for <b>FLAG</b> using Ctrl + F.</div>
+  <div class="result" id="result1"></div>
+ </section>
+
+ <section class="card locked" id="level2">
+  <span class="tag">LEVEL 2 • DISCOVERY</span><span class="points">100 POINTS</span>
+  <h2>📁 Secret File</h2>
+  <p class="mission">Developers sometimes leave clues in common website files. Try opening a file called <b>robots.txt</b>.</p>
+  <p class="tiny">Because this training site is one offline HTML file, use the simulated robots.txt button below.</p>
+  <button onclick="showRobots()">Open robots.txt</button>
+  <div id="robots" style="display:none;background:#050b12;padding:15px;border-radius:8px;margin-top:12px;font-family:monospace">User-agent: *<br>Disallow: /nothing-secret/<br><br># Training note: FLAG{ROBOT_FOUND}</div>
+  <input id="answer2" placeholder="Enter FLAG{...}">
+  <button onclick="check(2,'FLAG{ROBOT_FOUND}')">Submit Flag</button>
+  <button class="hint" onclick="hint(2)">Hint</button>
+  <div class="hintText" id="hint2">Open the simulated <b>robots.txt</b> and look carefully for the flag.</div>
+  <div class="result" id="result2"></div>
+ </section>
+
+ <section class="card locked" id="level3">
+  <span class="tag">LEVEL 3 • ENCODING</span><span class="points">100 POINTS</span>
+  <h2>🔐 Decode Me</h2>
+  <p class="mission">You intercepted the following encoded message:</p>
+  <div style="background:#050b12;padding:18px;border-radius:8px;font-family:monospace;word-break:break-all">RkxBR3tDWUJFUl9XSU5ORVJ9</div>
+  <p class="mission">It uses a common encoding called <b>Base64</b>. Decode it and submit the result.</p>
+  <button onclick="decodeHelp()">Use Training Decoder</button>
+  <div id="decoder" style="display:none;margin-top:10px;background:#15263a;padding:12px;border-radius:8px">Decoded text: <b>FLAG{CYBER_WINNER}</b></div>
+  <input id="answer3" placeholder="Enter FLAG{...}">
+  <button onclick="check(3,'FLAG{CYBER_WINNER}')">Submit Flag</button>
+  <button class="hint" onclick="hint(3)">Hint</button>
+  <div class="hintText" id="hint3">Click <b>Use Training Decoder</b>. In a real CTF, you could use a Base64 decoder or a terminal command.</div>
+  <div class="result" id="result3"></div>
+ </section>
+
+ <section class="card" id="finish" style="display:none;text-align:center"><h2>🏆 CTF COMPLETE!</h2><p>You captured all 3 flags and scored <b>300/300</b>.</p><p>You have now practiced source inspection, website-file discovery, and basic decoding.</p></section>
+</div>
+<div class="footer">CYBERTHON • Beginner CTF Training Arena</div>
+<script>
+let solved=[false,false,false];
+function check(n,correct){let v=document.getElementById('answer'+n).value.trim();let r=document.getElementById('result'+n);if(v.toUpperCase()===correct){if(!solved[n-1]){solved[n-1]=true;document.getElementById('flags').textContent=solved.filter(Boolean).length;document.getElementById('score').textContent=solved.filter(Boolean).length*100;if(n<3)document.getElementById('level'+(n+1)).classList.remove('locked');}r.style.color='#75f0aa';r.textContent='✓ Correct! Flag captured. Next level unlocked.';if(solved.every(Boolean))document.getElementById('finish').style.display='block';}else{r.style.color='#ff7b7b';r.textContent='✗ Not correct yet. Try again or use the hint.';}}
+function hint(n){let e=document.getElementById('hint'+n);e.style.display=e.style.display==='block'?'none':'block'}
+function showRobots(){document.getElementById('robots').style.display='block'}
+function decodeHelp(){document.getElementById('decoder').style.display='block'}
+</script>
+</body>
+</html>

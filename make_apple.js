@@ -1,0 +1,83 @@
+const QRCode = require('qrcode');
+const fs = require('fs');
+
+async function makeApple() {
+  const url = 'http://localhost:8080/secret_apple_vault.html';
+  
+  // Generate QR as raw SVG
+  const qrSvg = await QRCode.toString(url, {
+    type: 'svg',
+    margin: 1,
+    color: {
+      dark: '#070d18',
+      light: '#ffffff'
+    }
+  });
+
+  const pathMatch = qrSvg.match(/<path[^>]+>/);
+  const qrPath = pathMatch ? pathMatch[0] : '';
+
+  const appleSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="520" viewBox="0 0 500 520">
+  <defs>
+    <radialGradient id="appleGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ff4d4d"/>
+      <stop offset="60%" stop-color="#d61a1a"/>
+      <stop offset="100%" stop-color="#800000"/>
+    </radialGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#55e87a"/>
+      <stop offset="100%" stop-color="#188038"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(255, 50, 50, 0.35)"/>
+    </filter>
+  </defs>
+
+  <!-- Container Box -->
+  <rect width="500" height="520" rx="20" fill="#07111e" stroke="#1f426e" stroke-width="2"/>
+
+  <text x="250" y="38" font-family="'JetBrains Mono', Courier, monospace" font-size="14" font-weight="bold" fill="#00e5ff" text-anchor="middle" letter-spacing="2">ARTIFACT #APL-2026: THE DIGITAL APPLE</text>
+  <text x="250" y="58" font-family="'Outfit', sans-serif" font-size="12" fill="#8ba5c4" text-anchor="middle">Scan the apple with your phone or camera to access the secret gateway</text>
+
+  <!-- Apple Stem -->
+  <path d="M 250 110 C 255 80, 275 60, 290 55 C 285 75, 270 95, 255 112 Z" fill="#6b3e14"/>
+
+  <!-- Apple Leaf -->
+  <path d="M 252 95 C 275 65, 325 70, 340 90 C 315 110, 270 110, 252 95 Z" fill="url(#leafGrad)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))"/>
+
+  <!-- Apple Body -->
+  <g filter="url(#glow)">
+    <path d="M 250 140 C 210 100, 100 110, 90 220 C 80 320, 160 430, 210 445 C 235 452, 245 442, 250 442 C 255 442, 265 452, 290 445 C 340 430, 420 320, 410 220 C 400 110, 290 100, 250 140 Z" fill="url(#appleGrad)" stroke="#a30d0d" stroke-width="3"/>
+  </g>
+
+  <!-- Apple Highlight -->
+  <ellipse cx="170" cy="175" rx="28" ry="16" fill="rgba(255, 255, 255, 0.28)" transform="rotate(-35 170 175)"/>
+
+  <!-- QR Code embedded inside White Plaque in Apple Center -->
+  <g transform="translate(160, 195)">
+    <rect width="180" height="180" rx="12" fill="#ffffff" stroke="#ffebeb" stroke-width="3" filter="drop-shadow(0 4px 8px rgba(0,0,0,0.5))"/>
+    <g transform="translate(10, 10) scale(4.1)">
+      ${qrPath}
+    </g>
+  </g>
+
+  <!-- Bottom Label -->
+  <text x="250" y="490" font-family="'JetBrains Mono', Courier, monospace" font-size="13" font-weight="bold" fill="#ffb800" text-anchor="middle" letter-spacing="1.5">📷 POINT PHONE CAMERA AT APPLE TO SCAN</text>
+</svg>`;
+
+  fs.writeFileSync('c:/Users/pecul/Desktop/roshan/challenge_apple.svg', appleSvg, 'utf8');
+  console.log('challenge_apple.svg created successfully');
+
+  // Also generate PNG
+  await QRCode.toFile('c:/Users/pecul/Desktop/roshan/challenge_apple.png', url, {
+    width: 450,
+    margin: 2,
+    color: {
+      dark: '#800000',
+      light: '#ffffff'
+    }
+  });
+  console.log('challenge_apple.png created successfully');
+}
+
+makeApple();

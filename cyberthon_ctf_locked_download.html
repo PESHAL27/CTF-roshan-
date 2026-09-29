@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CYBERTHON • 1st Year CTF Cyber Challenge</title>
+  <!-- 🕵️ CLUE FOR AGENTS: The Level 1 secret is encoded in Hex: 464c41477b57334c43304d335f54305f43594233527d 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #070d18;
+  --bg-card: rgba(14, 25, 43, 0.88);
+  --bg-card-border: rgba(56, 112, 179, 0.35);
+  --bg-terminal: #040912;
+  --primary-neon: #00ff9d;
+  --cyan-neon: #00e5ff;
+  --amber-neon: #ffb800;
+  --danger-neon: #ff3864;
+  --text-main: #e2eeff;
+  --text-dim: #8ba5c4;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(0, 229, 255, 0.12) 0%, transparent 60%),
+    linear-gradient(rgba(0, 255, 157, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 157, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+header {
+  padding: 36px 20px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(16, 43, 78, 0.7) 0%, rgba(7, 13, 24, 0.95) 100%);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+  position: relative;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan-neon), var(--primary-neon), transparent);
+}
+
+.glitch-title {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #ffffff 20%, var(--cyan-neon) 60%, var(--primary-neon) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  color: var(--cyan-neon);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+}
+
+.wrap {
+  max-width: 920px;
+  margin: 20px auto 60px;
+  padding: 0 18px;
+}
+
+/* Sticky HUD */
+.hud {
+  background: rgba(10, 21, 38, 0.94);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 14px;
+  padding: 16px 22px;
+  margin-bottom: 24px;
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0, 229, 255, 0.1);
+}
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hud-stat {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hud-val {
+  color: var(--primary-neon);
+  font-size: 17px;
+}
+
+.hud-penalty {
+  color: var(--danger-neon);
+  font-size: 14px;
+}
+
+.rank-badge {
+  background: rgba(0, 229, 255, 0.15);
+  border: 1px solid var(--cyan-neon);
+  color: var(--cyan-neon);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.sound-toggle {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--text-dim);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.sound-toggle:hover { color: #fff; border-color: #fff; }
+
+.progress-track {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan-neon), var(--primary-neon));
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 12px var(--primary-neon);
+}
+
+/* Challenge Cards */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.card.active {
+  border-color: rgba(0, 255, 157, 0.45);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.45), 0 0 20px rgba(0, 255, 157, 0.08);
+}
+
+.card.completed {
+  border-color: rgba(0, 255, 157, 0.3);
+  background: rgba(9, 28, 28, 0.55);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tag {
+  background: rgba(28, 82, 150, 0.35);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: var(--cyan-neon);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.tag-level {
+  background: rgba(0, 255, 157, 0.12);
+  border-color: rgba(0, 255, 157, 0.35);
+  color: var(--primary-neon);
+}
+
+.points {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--primary-neon);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mission {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 8px 0 14px 0;
+}
+
+/* Terminal / Code Box */
+.terminal-box {
+  background: var(--bg-terminal);
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 14px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13.5px;
+  color: #79ffe1;
+  position: relative;
+  word-break: break-all;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-dim);
+  font-size: 11px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.apple-preview {
+  text-align: center;
+  margin: 16px 0;
+  padding: 14px;
+  background: #040912;
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  border-radius: 12px;
+}
+
+.apple-preview svg {
+  max-width: 380px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.apple-preview svg:hover {
+  transform: scale(1.02);
+}
+
+.paragraph-box {
+  background: #040a14;
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 14px 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: #d6e5fa;
+  letter-spacing: 0.3px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+input {
+  flex: 1;
+  min-width: 240px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  border: 1px solid #234973;
+  background: #040c17;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  border-color: var(--cyan-neon);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.25);
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+}
+.btn-submit:hover {
+  background: linear-gradient(135deg, #1ad0ff, #1a82ff);
+  box-shadow: 0 4px 16px rgba(0, 114, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-hint {
+  background: rgba(255, 184, 0, 0.12);
+  border: 1px solid rgba(255, 184, 0, 0.35);
+  color: var(--amber-neon);
+}
+.btn-hint:hover { background: rgba(255, 184, 0, 0.22); }
+
+.btn-download {
+  background: linear-gradient(135deg, #00b09b, #96c93d);
+  color: #03140e;
+  font-weight: 800;
+}
+.btn-download:hover {
+  box-shadow: 0 4px 18px rgba(0, 255, 157, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-copy {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text-dim);
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 5px;
+}
+.btn-copy:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.hint-text {
+  display: none;
+  background: rgba(255, 184, 0, 0.08);
+  border-left: 3px solid var(--amber-neon);
+  color: #ffd978;
+  padding: 12px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.result {
+  min-height: 22px;
+  margin-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+}
+.result.success { color: var(--primary-neon); }
+.result.error { color: var(--danger-neon); }
+.result.canary {
+  color: var(--amber-neon);
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.card.locked {
+  opacity: 0.45;
+  pointer-events: none;
+  filter: grayscale(0.5);
+  position: relative;
+}
+
+.card.locked::after {
+  content: '🔒 LOCKED • COMPLETE PREVIOUS LEVEL';
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--danger-neon);
+  background: rgba(255, 56, 100, 0.12);
+  border: 1px solid rgba(255, 56, 100, 0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+#finish {
+  display: none;
+  text-align: center;
+  padding: 40px 24px;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 157, 0.15) 0%, rgba(14, 25, 43, 0.95) 70%);
+  border: 2px solid var(--primary-neon);
+  box-shadow: 0 0 40px rgba(0, 255, 157, 0.2);
+}
+
+.shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 35px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="glitch-title">CYBERTHON</div>
+  <div class="subtitle">🎯 7-Level Capture The Flag • Training Quest</div>
+</header>
+
+<div class="wrap">
+  <!-- Sticky HUD -->
+  <div class="hud">
+    <div class="hud-top">
+      <div class="hud-stat">
+        <span>🏁 Flags:</span>
+        <span class="hud-val"><span id="flags">0</span>/7</span>
+      </div>
+      <div class="hud-stat">
+        <span>🏆 Score:</span>
+        <span class="hud-val" id="score">0</span>
+        <span style="color:var(--text-dim); font-size:12px;">/700</span>
+      </div>
+      <div class="hud-stat">
+        <span>⚠️ Penalties:</span>
+        <span class="hud-penalty"><span id="penalties">0</span> (<span id="penaltyPts">0</span> pts)</span>
+      </div>
+      <div class="hud-stat">
+        <span class="rank-badge" id="rankBadge">LEVEL 1 RECRUIT</span>
+        <button class="sound-toggle" id="soundBtn" onclick="toggleAudio()">🔊 Audio: ON</button>
+      </div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- LEVEL 1 -->
+  <section class="card active" id="level1">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 1 • WEB INSPECT</span>
+        <span class="tag">TRICKY CLUE</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>🔎 Inspect The Source</h2>
+    <p class="mission">
+      A secret agent left a hidden clue inside the HTML source of this webpage!
+      Inspect the page source (<kbd>Ctrl + U</kbd> or right-click ➔ <b>View page source</b>).
+      Find the hidden agent comment. The flag is stored inside as <b>Hexadecimal</b>.
+      Convert the Hex into plain text to capture your first flag!
+    </p>
+    <div class="terminal-box">
+      <div class="terminal-header">
+        <span>INSPECTION TARGET</span>
+        <span>HINT: HTML COMMENTS &lt;!-- ... --&gt;</span>
+      </div>
+      <div>> Target: Look inside &lt;head&gt; near the top of the HTML page source.</div>
+    </div>
+    <div class="input-row">
+      <input id="answer1" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 1)">
+      <button class="btn-submit" onclick="submitFlag(1)">Submit Flag</button>
+      <button class="btn-hint" onclick="toggleHint(1)">💡 Hint</button>
+    </div>
+    <div class="hint-text" id="hint1">
+      Press <b>Ctrl + U</b> to view page source. Press <b>Ctrl + F</b> and search for <code>AGENT</code> or
+      <code>Hex</code>.
+      You will see a comment with a Hex string starting with <code>464c4147...</code>.
+      Paste that string into CyberChef or an online Hex-to-Text decoder to get the flag!
+    </div>
+    <div class="result" id="result1"></div>
+  </section>
+
+  <!-- LEVEL 2 -->
+  <section class="card locked" id="level2">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 2 • LOG FILE HUNT</span>
+        <span class="tag">TOUGH CLUE</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>📄 Tricky File Search</h2>
+    <p class="mission">
+      Download the server audit log (<code>level2_challenge.txt</code>).
+      <br><b>⚠️ TRICKY WARNING:</b> Automated canary traps are planted in the file! If you just search for "FLAG", you
+      will only hit fake honeypot flags.
+      <br><b>🔍 YOUR CLUE:</b> Search the log file for <code>user=shadow_agent</code> and
+      <code>STATUS=CONFIDENTIAL</code>.
+      Inside that line is an encrypted <b>Base64 payload</b>. Decode it to find the real flag!
+    </p>
+    <div style="margin: 12px 0;">
+      <button id="download2" class="btn-download" onclick="downloadLevel2()">⬇ Download Challenge File
+        (level2_challenge.txt)</button>
+    </div>
+    <div class="input-row">
+      <input id="answer2" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 2)">
+      <button class="btn-submit" onclick="submitFlag(2)">Submit Flag</button>
+      <button class="btn-hint" onclick="toggleHint(2)">💡 Hint</button>
+    </div>
+    <div class="hint-text" id="hint2">
+      Open <code>level2_challenge.txt</code> in Notepad. Press <b>Ctrl + F</b> and search for <code>shadow_agent</code>.
+      Copy the Base64 text inside <code>payload="..."</code> (starts with <code>RkxBR...</code>).
+      Decode that Base64 string in CyberChef or any online Base64 decoder!
+    </div>
+    <div class="result" id="result2"></div>
+  </section>
+
+  <!-- LEVEL 3 -->
+  <section class="card locked" id="level3">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 3 • UTF-16 CIPHER</span>
+        <span class="tag">UNICODE ESCAPE</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>🔐 UTF-16 Unicode Cipher</h2>
+    <p class="mission">
+      Modern software systems encode international text using <b>UTF-16</b> (16-bit Unicode transformation format),
+      commonly represented by <code>\uXXXX</code> hex escape sequences.
+      Decode this intercepted UTF-16 sequence to recover the secret flag:
+    </p>
+    <div class="terminal-box">
+      <div class="terminal-header">
+        <span>UTF-16 ESCAPE SEQUENCE</span>
+        <button class="btn-copy"
+          onclick="copyText('\\u0046\\u004c\\u0041\\u0047\\u007b\\u0055\\u0054\\u0046\\u0031\\u0036\\u005f\\u0044\\u0033\\u0043\\u0030\\u0044\\u0033\\u005f\\u0050\\u0052\\u0030\\u007d')">Copy</button>
+      </div>
+      <div>
+        \u0046\u004c\u0041\u0047\u007b\u0055\u0054\u0046\u0031\u0036\u005f\u0044\u0033\u0043\u0030\u0044\u0033\u005f\u0050\u0052\u0030\u007d
+      </div>
+    </div>
+    <div class="input-row">
+      <input id="answer3" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 3)">
+      <button class="btn-submit" onclick="submitFlag(3)">Submit Flag</button>
+      <button class="btn-hint" onclick="toggleHint(3)">💡 Hint</button>
+    </div>
+    <div class="hint-text" id="hint3">
+      Press <b>F12</b> to open your browser Console. Type:<br>
+      <code>console.log('\u0046\u004c\u0041\u0047\u007b\u0055\u0054\u0046\u0031\u0036\u005f\u0044\u0033\u0043\u0030\u0044\u0033\u005f\u0050\u0052\u0030\u007d')</code><br>
+      and press Enter! Or in CyberChef, use the <b>Unescape string</b> operation.
+    </div>
+    <div class="result" id="result3"></div>
+  </section>
+
+  <!-- LEVEL 4 -->
+  <section class="card locked" id="level4">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 4 • WORD CRACK</span>
+        <span class="tag">CLEAN THE NOISE</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>✂️ Filter The Noise</h2>
+    <p class="mission">
+      A radio intercept was contaminated with noise interference!
+      Remove every <code>#</code> and <code>@</code> character from the scrambled string below to crack the original
+      flag word:
+    </p>
+    <div class="terminal-box">
+      <div class="terminal-header">
+        <span>SCRAMBLED TRANSMISSION</span>
+        <button class="btn-copy" onclick="copyText('#F@L#A@G#{#N@E#T@W#O@R#K#_#S@E#C@U#R@E#}')">Copy</button>
+      </div>
+      <div>#F@L#A@G#{#N@E#T@W#O@R#K#_#S@E#C@U#R@E#}</div>
+    </div>
+    <div class="input-row">
+      <input id="answer4" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 4)">
+      <button class="btn-submit" onclick="submitFlag(4)">Submit Flag</button>
+      <button class="btn-hint" onclick="toggleHint(4)">💡 Hint</button>
+    </div>
+    <div class="hint-text" id="hint4">
+      Open Notepad, paste the string, press <b>Ctrl + H</b> (Replace), replace <code>#</code> with nothing, then replace
+      <code>@</code> with nothing. You will be left with the flag!
+    </div>
+    <div class="result" id="result4"></div>
+  </section>
+
+  <!-- LEVEL 5 -->
+  <section class="card locked" id="level5">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 5 • SCAN THE APPLE</span>
+        <span class="tag">RIDDLE QUEST</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>🍏 The Digital Apple Artifact</h2>
+    <p class="mission">
+      An operative hidden transmission has been encoded into the digital apple picture below.
+      Scan the apple with your phone camera or QR scanner (or click on it) to open the secret gateway website.
+      Inside that website, solve the Guardian's Riddle to obtain the Level 5 Flag!
+    </p>
+    <div class="apple-preview">
+      <a href="secret_apple_vault.html" target="_blank" title="Click or Scan Apple to open secret website">
+        <svg xmlns="http://www.w3.org/2000/svg" width="500" height="520" viewBox="0 0 500 520">
+          <defs>
+            <radialGradient id="appleGrad" cx="35%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#ff4d4d" />
+              <stop offset="60%" stop-color="#d61a1a" />
+              <stop offset="100%" stop-color="#800000" />
+            </radialGradient>
+            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#55e87a" />
+              <stop offset="100%" stop-color="#188038" />
+            </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(255, 50, 50, 0.35)" />
+            </filter>
+          </defs>
+
+          <!-- Container Box -->
+          <rect width="500" height="520" rx="20" fill="#07111e" stroke="#1f426e" stroke-width="2" />
+
+          <text x="250" y="38" font-family="'JetBrains Mono', Courier, monospace" font-size="14" font-weight="bold"
+            fill="#00e5ff" text-anchor="middle" letter-spacing="2">ARTIFACT #APL-2026: THE DIGITAL APPLE</text>
+          <text x="250" y="58" font-family="'Outfit', sans-serif" font-size="12" fill="#8ba5c4"
+            text-anchor="middle">Scan the apple with your phone or camera to access the secret gateway</text>
+
+          <!-- Apple Stem -->
+          <path d="M 250 110 C 255 80, 275 60, 290 55 C 285 75, 270 95, 255 112 Z" fill="#6b3e14" />
+
+          <!-- Apple Leaf -->
+          <path d="M 252 95 C 275 65, 325 70, 340 90 C 315 110, 270 110, 252 95 Z" fill="url(#leafGrad)"
+            filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))" />
+
+          <!-- Apple Body -->
+          <g filter="url(#glow)">
+            <path
+              d="M 250 140 C 210 100, 100 110, 90 220 C 80 320, 160 430, 210 445 C 235 452, 245 442, 250 442 C 255 442, 265 452, 290 445 C 340 430, 420 320, 410 220 C 400 110, 290 100, 250 140 Z"
+              fill="url(#appleGrad)" stroke="#a30d0d" stroke-width="3" />
+          </g>
+
+          <!-- Apple Highlight -->
+          <ellipse cx="170" cy="175" rx="28" ry="16" fill="rgba(255, 255, 255, 0.28)" transform="rotate(-35 170 175)" />
+
+          <!-- QR Code embedded inside White Plaque in Apple Center -->
+          <g transform="translate(160, 195)">
+            <rect width="180" height="180" rx="12" fill="#ffffff" stroke="#ffebeb" stroke-width="3"
+              filter="drop-shadow(0 4px 8px rgba(0,0,0,0.5))" />
+            <g transform="translate(10, 10) scale(4.1)">
+              <path fill="#ffffff" d="M0 0h35v35H0z" />
+            </g>
+          </g>
+
+          <!-- Bottom Label -->
+          <text x="250" y="490" font-family="'JetBrains Mono', Courier, monospace" font-size="13" font-weight="bold"
+            fill="#ffb800" text-anchor="middle" letter-spacing="1.5">📷 POINT PHONE CAMERA AT APPLE TO SCAN</text>
+        </svg>
+      </a>
+      <div style="margin-top: 10px;">
+        <a href="secret_apple_vault.html" target="_blank"
+          style="color:var(--cyan-neon); font-size:13px; font-family:'JetBrains Mono', monospace; text-decoration:none;">
+          🔗 Click here to open Secret Apple Vault in a new tab
+        </a>
+      </div>
+    </div>
+    <div style="margin: 12px 0;">
+      <button class="btn-download" onclick="downloadAppleImage()">⬇ Download Apple Picture
+        (challenge_apple.png)</button>
+    </div>
+    <div class="input-row">
+      <input id="answer5" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 5)">
+      <button class="btn-submit" onclick="submitFlag(5)">Submit Flag</button>
+    </div>
+    <div class="result" id="result5"></div>
+  </section>
+
+  <!-- LEVEL 6 -->
+  <section class="card locked" id="level6">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 6 • ONE STEP BACK</span>
+        <span class="tag">CAESAR SHIFT</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>⬅️ One Step Back</h2>
+    <p class="mission">
+      Every letter in this secret message was shifted <b>ONE STEP FORWARD</b> in the alphabet (e.g. A becomes B, B
+      becomes C).
+      <br>To crack the cipher, shift each letter <b>ONE STEP BACK</b> (B ➔ A, C ➔ B, D ➔ C ...):
+    </p>
+    <div class="terminal-box">
+      <div class="terminal-header">
+        <span>SHIFTED CIPHERTEXT</span>
+        <button class="btn-copy" onclick="copyText('GMBH{TFDVSJUZ}')">Copy</button>
+      </div>
+      <div>GMBH{TFDVSJUZ}</div>
+    </div>
+    <div class="input-row">
+      <input id="answer6" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 6)">
+      <button class="btn-submit" onclick="submitFlag(6)">Submit Flag</button>
+      <button class="btn-hint" onclick="toggleHint(6)">💡 Hint</button>
+    </div>
+    <div class="hint-text" id="hint6">
+      Look at each letter:<br>
+      G - 1 = F, M - 1 = L, B - 1 = A, H - 1 = G ➔ <code>FLAG{...}</code><br>
+      Now shift each letter inside the brackets back by 1 (T ➔ S, F ➔ E, D ➔ C...)!
+    </div>
+    <div class="result" id="result6"></div>
+  </section>
+
+  <!-- LEVEL 7 -->
+  <section class="card locked" id="level7">
+    <div class="card-top">
+      <div class="tag-group">
+        <span class="tag tag-level">LEVEL 7 • PARAGRAPH CRACK</span>
+        <span class="tag">ACROSTIC STEGANOGRAPHY</span>
+      </div>
+      <span class="points">100 POINTS</span>
+    </div>
+    <h2>🧩 Crack Words From A Sentence</h2>
+    <p class="mission">
+      An intelligence analyst recorded the following incident briefing.
+      Carefully examine the paragraph. A secret word is hidden in plain sight:
+      a few letters are capitalized (without any bold text).
+      Find all the capital letters in order, assemble them into the secret word, and wrap it inside
+      <code>FLAG{...}</code>:
+    </p>
+    <div class="paragraph-box">
+      in the quiet hours of digital forensics, our analysts notice unusual network telemetry. Fibers of optical cable
+      carried silent pulses across the gateway. monitoring tools Inspect millions of packets every minute to detect
+      unauthorized activity. when an anomaly was detected, an automated Routine began logging system events. Every
+      connection was tested against perimeter security policies. Without hesitation, the intrusion detection system
+      blocked the suspicious traffic. All security ledger entries were archived in encrypted containers. Logs of the
+      incident were reviewed by the security team. Lastly, the engineers confirmed that the network was completely
+      protected.
+    </div>
+    <div class="input-row">
+      <input id="answer7" placeholder="Enter FLAG{...}" autocomplete="off" onkeydown="handleKey(event, 7)">
+      <button class="btn-submit" onclick="submitFlag(7)">Submit Flag</button>
+    </div>
+    <div class="result" id="result7"></div>
+  </section>
+
+  <!-- FINISH SCREEN -->
+  <section class="card" id="finish">
+    <div style="font-size: 56px; margin-bottom: 10px;">🏆</div>
+    <h2 style="justify-content: center; color: var(--primary-neon); font-size: 32px;">QUEST COMPLETE!</h2>
+    <p class="mission" style="font-size: 17px; max-width: 560px; margin: 12px auto;">
+      Outstanding! You solved all 7 cyber levels, bypassed canary decoys, decoded UTF-16, conquered the Apple riddle,
+      and finished with a final score of <b style="color: var(--primary-neon);"><span
+          id="finalScore">700</span>/700</b>!
+    </p>
+    <div class="rank-badge" style="font-size: 15px; padding: 6px 18px; display: inline-block;">
+      RANK: CERTIFIED 1ST YEAR CYBER OPERATIVE
+    </div>
+  </section>
+  </div>
+
+  <div class="footer">
+    CYBERTHON • 1st Year Capture The Flag Training Arena
+  </div>
+
+  <script>
+    // Cryptographic SHA-256 verification (Zero plaintext flags in client JavaScript!)
+    const LEVEL_HASHES = {
+      1: "74cd77e767d262f6ce718367016d6cd57c422e9a6420741d0155e3f40db416da",
+      2: "84bd2768819d18ad0222c01fe6b5f80795ab11d9b9355b0ffa5657bb2b1c91b7",
+      3: "a56fa51a273bff82ea254a38eb362ed5cc3d8af033c1a07eba42bf8989d83f4f",
+      4: "b5c490d3762937a8b93329a86c829629b2002f40ba19721fc6e18da6721e96ab",
+      5: "1482184581c647617ebb5a358da6979c3e32e98eea1a956d47fa5377d74a82de",
+      6: "33736960f46085775e57ea690f2cc247b3466b3259d40141152a155318f38f4d",
+      7: "4183943f49b994a8d84c638190bd60621219ef2d911085e5cc6f96e3e994580e"
+    };
+
+    // Canary Decoys for Level 2
+    const CANARY_HASHES = {
+      "9fd8e9552ea54dd82d3c5d6f094dae61c47ccd2f1a5f5d007d084acdd860f4b9": "⚠️ CANARY TRAP! You submitted 'FLAG{TRY_AGAIN_AMATEUR_DECOY}'. This is a decoy! Read the clue: look for user=shadow_agent and decode the Base64 payload.",
+      "37d0598a0e32be7005ad529b57fc6b96bce4f844f3ef89a6f2ccd3125ad1b6af": "⚠️ CANARY TRAP! You submitted 'FLAG{HONEYPOT_DETECTED_NOT_HERE}'. That is a decoy planted for quick searchers. Follow the clue!",
+      "d7aefde99188563e84a27c8d984906909a159fcbc006b8231fc250e390bee6bf": "⚠️ CANARY TRAP! You submitted 'FLAG{FALSE_LEAD_KEEP_LOOKING}'. Follow the shadow_agent clue to get the real Base64 flag."
+    };
+
+    const solved = [false, false, false, false, false, false, false];
+    let wrongAttempts = 0;
+    let audioEnabled = true;
+
+    function updateScoreHUD() {
+      const solvedCount = solved.filter(Boolean).length;
+      const currentScore = (solvedCount * 100) - (wrongAttempts * 2);
+      document.getElementById('flags').textContent = solvedCount;
+      document.getElementById('score').textContent = currentScore;
+      document.getElementById('penalties').textContent = wrongAttempts;
+      document.getElementById('penaltyPts').textContent = wrongAttempts * 2;
+      document.getElementById('progressFill').style.width = ((solvedCount / 7) * 100) + '%';
+      document.getElementById('finalScore').textContent = currentScore;
+
+      const ranks = ['LEVEL 1 RECRUIT', 'SCOUT OPERATIVE', 'CYBER DETECTIVE', 'CODE BREAKER', 'SECURITY CADET', 'CIPHER SPECIALIST', 'CYBER CHAMPION'];
+      if (solvedCount > 0) {
+        document.getElementById('rankBadge').textContent = ranks[solvedCount - 1] || ranks[0];
+      }
+    }
+
+    // Web Audio API Synthesizer
+    let audioCtx = null;
+    function playSound(type) {
+      if (!audioEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'success') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          osc.frequency.setValueAtTime(783.99, now + 0.16);
+          osc.frequency.setValueAtTime(1046.50, now + 0.24);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+          osc.start(now);
+          osc.stop(now + 0.5);
+        } else if (type === 'error') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.linearRampToValueAtTime(120, now + 0.22);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === 'canary') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(330, now + 0.1);
+          osc.frequency.setValueAtTime(440, now + 0.2);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        }
+      } catch (e) { }
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('soundBtn').textContent = audioEnabled ? '🔊 Audio: ON' : '🔇 Audio: OFF';
+    }
+
+    // SHA-256 calculator
+    async function sha256(text) {
+      const enc = new TextEncoder().encode(text.trim());
+      const buf = await crypto.subtle.digest('SHA-256', enc);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function submitFlag(n) {
+      const inputEl = document.getElementById('answer' + n);
+      const resultEl = document.getElementById('result' + n);
+      const cardEl = document.getElementById('level' + n);
+      const val = inputEl.value.trim();
+
+      if (!val) {
+        resultEl.className = 'result error';
+        resultEl.textContent = '⚠️ Please enter a flag before submitting.';
+        return;
+      }
+
+      const hash = await sha256(val);
+
+      // Check Canary Decoys on Level 2
+      if (n === 2 && CANARY_HASHES[hash]) {
+        playSound('canary');
+        wrongAttempts++;
+        updateScoreHUD();
+        resultEl.className = 'result canary';
+        resultEl.textContent = CANARY_HASHES[hash] + ' (-2 marks penalty)';
+        cardEl.classList.add('shake');
+        setTimeout(() => cardEl.classList.remove('shake'), 450);
+        return;
+      }
+
+      if (hash === LEVEL_HASHES[n]) {
+        playSound('success');
+        if (!solved[n - 1]) {
+          solved[n - 1] = true;
+          updateScoreHUD();
+
+          cardEl.classList.remove('active');
+          cardEl.classList.add('completed');
+
+          if (n < 7) {
+            const next = document.getElementById('level' + (n + 1));
+            next.classList.remove('locked');
+            next.classList.add('active');
+            setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'center' }), 400);
+          }
+        }
+        resultEl.className = 'result success';
+        resultEl.textContent = n < 7 ? '✓ Correct! Level unlocked. Proceed to next challenge.' : '✓ Correct! All 7 flags captured!';
+
+        if (solved.every(Boolean)) {
+          document.getElementById('finish').style.display = 'block';
+          setTimeout(() => document.getElementById('finish').scrollIntoView({ behavior: 'smooth' }), 450);
+        }
+      } else {
+        playSound('error');
+        wrongAttempts++;
+        updateScoreHUD();
+        resultEl.className = 'result error';
+        resultEl.textContent = '✗ Not correct yet (-2 marks penalty). Try again!';
+        cardEl.classList.add('shake');
+        setTimeout(() => cardEl.classList.remove('shake'), 450);
+      }
+    }
+
+    function handleKey(e, n) {
+      if (e.key === 'Enter') submitFlag(n);
+    }
+
+    function toggleHint(n) {
+      const el = document.getElementById('hint' + n);
+      if (el) {
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+      }
+    }
+
+    function copyText(str) {
+      navigator.clipboard.writeText(str).then(() => {
+        alert('Copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy value:', str);
+      });
+    }
+
+    const level2File = "================================================================================\nCYBERTHON ARCHIVE • SYSTEM ACCESS & AUDIT LOG DUMP\nHOST: CAMPUS-SRV-CORE-01 | LOG DATE: 2026-09-29 | LEVEL 2 CHALLENGE FILE\n================================================================================\nINVESTIGATION NOTE FOR 1ST YEAR CTF OPERATIVES:\nThis log file records network traffic, user authentications, and system events.\nBeware: The system contains CANARY HONEYPOT FLAGS designed to catch lazy searchers.\nIf you simply search for \"FLAG\", you will only find fake decoy flags!\n\nMISSION CLUE:\nLocate the confidential audit record associated with: user=shadow_agent\nwhere STATUS=CONFIDENTIAL. The authentic flag is stored in the Base64 payload.\nDecode the Base64 string to find the real flag.\n================================================================================\n\n2026-09-29 08:45:45 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=9ms\n2026-09-29 08:48:56 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=568\n2026-09-29 08:51:07 [AUTH] sshd[1217]: Accepted password for network_svc from 192.168.10.33 port 22017\n2026-09-29 08:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 08:57:29 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=5ms\n2026-09-29 08:00:40 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 404 bytes=660\n2026-09-29 08:03:51 [AUTH] sshd[1221]: Accepted password for system from 172.16.2.80 port 22021\n2026-09-29 08:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 08:09:13 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=9ms\n2026-09-29 08:12:24 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=752\n2026-09-29 08:15:35 [AUTH] sshd[1225]: Accepted password for operator from 192.168.1.14 port 22025\n2026-09-29 08:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 08:21:57 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=5ms\n2026-09-29 08:24:08 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=844\n2026-09-29 08:27:19 [AUTH] sshd[1229]: Accepted password for network_svc from 198.51.100.4 port 22029\n2026-09-29 08:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 08:33:41 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=9ms\n2026-09-29 08:36:52 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=936\n2026-09-29 08:39:03 [AUTH] sshd[1233]: Accepted password for system from 192.168.1.55 port 22033\n2026-09-29 08:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 08:45:25 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=5ms\n2026-09-29 08:48:36 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=1028\n2026-09-29 08:51:47 [AUTH] sshd[1237]: Accepted password for operator from 203.0.113.19 port 22037\n2026-09-29 08:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 08:57:09 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=9ms\n2026-09-29 08:00:20 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 404 bytes=1120\n2026-09-29 08:03:31 [AUTH] sshd[1241]: Accepted password for network_svc from 10.0.0.12 port 22041\n2026-09-29 08:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 08:09:53 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=5ms\n2026-09-29 08:12:04 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=1212\n2026-09-29 09:15:15 [AUTH] sshd[1245]: Accepted password for system from 192.168.10.33 port 22045\n2026-09-29 09:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 09:21:37 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=9ms\n2026-09-29 09:24:48 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1304\n2026-09-29 09:27:59 [AUTH] sshd[1249]: Accepted password for operator from 172.16.2.80 port 22049\n2026-09-29 09:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 09:33:21 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=5ms\n2026-09-29 09:36:32 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=1396\n2026-09-29 09:39:43 [AUTH] sshd[1253]: Accepted password for network_svc from 192.168.1.14 port 22053\n2026-09-29 09:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 09:45:05 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=9ms\n2026-09-29 09:48:16 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=1488\n2026-09-29 09:51:27 [AUTH] sshd[1257]: Accepted password for system from 198.51.100.4 port 22057\n2026-09-29 09:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 09:57:49 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=5ms\n2026-09-29 09:00:00 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 404 bytes=1580\n2026-09-29 09:03:11 [AUTH] sshd[1261]: Accepted password for operator from 192.168.1.55 port 22061\n2026-09-29 09:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 09:09:33 [SYS] healthcheck_daemon[213]: cluster heartbeat status=OK ping=9ms\n2026-09-29 09:12:44 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=1672\n2026-09-29 08:14:22 [DEBUG] test_canary_01: fake_flag=\"FLAG{TRY_AGAIN_AMATEUR_DECOY}\"\n2026-09-29 09:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 09:21:17 [SYS] healthcheck_daemon[217]: cluster heartbeat status=OK ping=5ms\n2026-09-29 09:24:28 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=1764\n2026-09-29 09:27:39 [AUTH] sshd[1269]: Accepted password for system from 10.0.0.12 port 22069\n2026-09-29 09:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 09:33:01 [SYS] healthcheck_daemon[221]: cluster heartbeat status=OK ping=9ms\n2026-09-29 09:36:12 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=1856\n2026-09-29 09:39:23 [AUTH] sshd[1273]: Accepted password for operator from 192.168.10.33 port 22073\n2026-09-29 09:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 09:45:45 [SYS] healthcheck_daemon[225]: cluster heartbeat status=OK ping=5ms\n2026-09-29 09:48:56 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1948\n2026-09-29 09:51:07 [AUTH] sshd[1277]: Accepted password for network_svc from 172.16.2.80 port 22077\n2026-09-29 09:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 09:57:29 [SYS] healthcheck_daemon[229]: cluster heartbeat status=OK ping=9ms\n2026-09-29 09:00:40 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 404 bytes=2040\n2026-09-29 09:03:51 [AUTH] sshd[1281]: Accepted password for system from 192.168.1.14 port 22081\n2026-09-29 09:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 09:09:13 [SYS] healthcheck_daemon[233]: cluster heartbeat status=OK ping=5ms\n2026-09-29 09:12:24 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=2132\n2026-09-29 09:15:35 [AUTH] sshd[1285]: Accepted password for operator from 198.51.100.4 port 22085\n2026-09-29 09:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 09:21:57 [SYS] healthcheck_daemon[237]: cluster heartbeat status=OK ping=9ms\n2026-09-29 09:24:08 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2224\n2026-09-29 09:27:19 [AUTH] sshd[1289]: Accepted password for network_svc from 192.168.1.55 port 22089\n2026-09-29 10:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 10:33:41 [SYS] healthcheck_daemon[241]: cluster heartbeat status=OK ping=5ms\n2026-09-29 10:36:52 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=2316\n2026-09-29 10:39:03 [AUTH] sshd[1293]: Accepted password for system from 203.0.113.19 port 22093\n2026-09-29 10:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 10:45:25 [SYS] healthcheck_daemon[245]: cluster heartbeat status=OK ping=9ms\n2026-09-29 10:48:36 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=2408\n2026-09-29 10:51:47 [AUTH] sshd[1297]: Accepted password for operator from 10.0.0.12 port 22097\n2026-09-29 10:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 10:57:09 [SYS] healthcheck_daemon[249]: cluster heartbeat status=OK ping=5ms\n2026-09-29 10:00:20 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 404 bytes=2500\n2026-09-29 10:03:31 [AUTH] sshd[1301]: Accepted password for network_svc from 192.168.10.33 port 22101\n2026-09-29 10:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 10:09:53 [SYS] healthcheck_daemon[203]: cluster heartbeat status=OK ping=9ms\n2026-09-29 10:12:04 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=2592\n2026-09-29 10:15:15 [AUTH] sshd[1305]: Accepted password for system from 172.16.2.80 port 22105\n2026-09-29 10:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 10:21:37 [SYS] healthcheck_daemon[207]: cluster heartbeat status=OK ping=5ms\n2026-09-29 10:24:48 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=2684\n2026-09-29 10:27:59 [AUTH] sshd[1309]: Accepted password for operator from 192.168.1.14 port 22109\n2026-09-29 10:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 10:33:21 [SYS] healthcheck_daemon[211]: cluster heartbeat status=OK ping=9ms\n2026-09-29 10:36:32 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=2776\n2026-09-29 10:39:43 [AUTH] sshd[1313]: Accepted password for network_svc from 198.51.100.4 port 22113\n2026-09-29 10:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 10:45:05 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=5ms\n2026-09-29 10:48:16 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2868\n2026-09-29 10:51:27 [AUTH] sshd[1317]: Accepted password for system from 192.168.1.55 port 22117\n2026-09-29 10:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 10:57:49 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=9ms\n2026-09-29 10:00:00 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 404 bytes=2960\n2026-09-29 10:03:11 [AUTH] sshd[1321]: Accepted password for operator from 203.0.113.19 port 22121\n2026-09-29 10:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 10:09:33 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=5ms\n2026-09-29 10:12:44 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=3052\n2026-09-29 10:15:55 [AUTH] sshd[1325]: Accepted password for network_svc from 10.0.0.12 port 22125\n2026-09-29 10:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 10:21:17 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=9ms\n2026-09-29 10:24:28 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3144\n2026-09-29 10:27:39 [AUTH] sshd[1329]: Accepted password for system from 192.168.10.33 port 22129\n2026-09-29 10:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 10:33:01 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=5ms\n2026-09-29 10:36:12 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=3236\n2026-09-29 10:39:23 [AUTH] sshd[1333]: Accepted password for operator from 172.16.2.80 port 22133\n2026-09-29 10:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 11:45:45 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=9ms\n2026-09-29 11:48:56 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3328\n2026-09-29 11:51:07 [AUTH] sshd[1337]: Accepted password for network_svc from 192.168.1.14 port 22137\n2026-09-29 11:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 11:57:29 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=5ms\n2026-09-29 11:00:40 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 404 bytes=3420\n2026-09-29 11:03:51 [AUTH] sshd[1341]: Accepted password for system from 198.51.100.4 port 22141\n2026-09-29 11:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 11:09:13 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=9ms\n2026-09-29 11:12:24 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=3512\n2026-09-29 11:15:35 [AUTH] sshd[1345]: Accepted password for operator from 192.168.1.55 port 22145\n2026-09-29 11:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 11:21:57 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=5ms\n2026-09-29 11:24:08 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=3604\n2026-09-29 11:27:19 [AUTH] sshd[1349]: Accepted password for network_svc from 203.0.113.19 port 22149\n2026-09-29 11:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 11:33:41 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=9ms\n2026-09-29 11:36:52 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=3696\n2026-09-29 11:39:03 [AUTH] sshd[1353]: Accepted password for system from 10.0.0.12 port 22153\n2026-09-29 11:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 11:45:25 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=5ms\n2026-09-29 11:48:36 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3788\n2026-09-29 11:51:47 [AUTH] sshd[1357]: Accepted password for operator from 192.168.10.33 port 22157\n2026-09-29 11:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 11:57:09 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=9ms\n2026-09-29 11:00:20 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 404 bytes=3880\n2026-09-29 11:03:31 [AUTH] sshd[1361]: Accepted password for network_svc from 172.16.2.80 port 22161\n2026-09-29 11:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 11:09:53 [SYS] healthcheck_daemon[213]: cluster heartbeat status=OK ping=5ms\n2026-09-29 11:12:04 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3972\n2026-09-29 11:15:15 [AUTH] sshd[1365]: Accepted password for system from 192.168.1.14 port 22165\n2026-09-29 11:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 11:21:37 [SYS] healthcheck_daemon[217]: cluster heartbeat status=OK ping=9ms\n2026-09-29 11:24:48 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=4064\n2026-09-29 11:27:59 [AUTH] sshd[1369]: Accepted password for operator from 198.51.100.4 port 22169\n2026-09-29 11:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 11:33:21 [SYS] healthcheck_daemon[221]: cluster heartbeat status=OK ping=5ms\n2026-09-29 11:36:32 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=4156\n2026-09-29 11:39:43 [AUTH] sshd[1373]: Accepted password for network_svc from 192.168.1.55 port 22173\n2026-09-29 11:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 11:22:04 [WARN] intruder_trap: canary_probe=\"FLAG{HONEYPOT_DETECTED_NOT_HERE}\"\n2026-09-29 11:48:16 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=248\n2026-09-29 11:51:27 [AUTH] sshd[1377]: Accepted password for system from 203.0.113.19 port 22177\n2026-09-29 11:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 11:57:49 [SYS] healthcheck_daemon[229]: cluster heartbeat status=OK ping=5ms\n2026-09-29 12:00:00 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 404 bytes=340\n2026-09-29 12:03:11 [AUTH] sshd[1381]: Accepted password for operator from 10.0.0.12 port 22181\n2026-09-29 12:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 12:09:33 [SYS] healthcheck_daemon[233]: cluster heartbeat status=OK ping=9ms\n2026-09-29 12:12:44 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=432\n2026-09-29 12:15:55 [AUTH] sshd[1385]: Accepted password for network_svc from 192.168.10.33 port 22185\n2026-09-29 12:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 12:21:17 [SYS] healthcheck_daemon[237]: cluster heartbeat status=OK ping=5ms\n2026-09-29 12:24:28 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=524\n2026-09-29 12:27:39 [AUTH] sshd[1389]: Accepted password for system from 172.16.2.80 port 22189\n2026-09-29 12:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 12:33:01 [SYS] healthcheck_daemon[241]: cluster heartbeat status=OK ping=9ms\n2026-09-29 12:36:12 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=616\n2026-09-29 12:39:23 [AUTH] sshd[1393]: Accepted password for operator from 192.168.1.14 port 22193\n2026-09-29 12:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 12:45:45 [SYS] healthcheck_daemon[245]: cluster heartbeat status=OK ping=5ms\n2026-09-29 12:48:56 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=708\n2026-09-29 12:51:07 [AUTH] sshd[1397]: Accepted password for network_svc from 198.51.100.4 port 22197\n2026-09-29 12:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 12:57:29 [SYS] healthcheck_daemon[249]: cluster heartbeat status=OK ping=9ms\n2026-09-29 12:00:40 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 404 bytes=800\n2026-09-29 12:03:51 [AUTH] sshd[1401]: Accepted password for system from 192.168.1.55 port 22201\n2026-09-29 12:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 12:09:13 [SYS] healthcheck_daemon[203]: cluster heartbeat status=OK ping=5ms\n2026-09-29 12:12:24 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=892\n2026-09-29 12:15:35 [AUTH] sshd[1405]: Accepted password for operator from 203.0.113.19 port 22205\n2026-09-29 12:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 12:21:57 [SYS] healthcheck_daemon[207]: cluster heartbeat status=OK ping=9ms\n2026-09-29 12:24:08 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=984\n2026-09-29 12:27:19 [AUTH] sshd[1409]: Accepted password for network_svc from 10.0.0.12 port 22209\n2026-09-29 12:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 12:33:41 [SYS] healthcheck_daemon[211]: cluster heartbeat status=OK ping=5ms\n2026-09-29 12:36:52 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=1076\n2026-09-29 12:39:03 [AUTH] sshd[1413]: Accepted password for system from 192.168.10.33 port 22213\n2026-09-29 12:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 12:45:25 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=9ms\n2026-09-29 12:48:36 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1168\n2026-09-29 12:51:47 [AUTH] sshd[1417]: Accepted password for operator from 172.16.2.80 port 22217\n2026-09-29 12:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 12:57:09 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=5ms\n2026-09-29 12:45:10 [AUDIT] user=shadow_agent STATUS=CONFIDENTIAL payload=\"RkxBR3tEMUdHMU5HX0QzM1BfSU5fTDBHU30=\"\n2026-09-29 12:03:31 [AUTH] sshd[1421]: Accepted password for network_svc from 192.168.1.14 port 22221\n2026-09-29 12:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 12:09:53 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=9ms\n2026-09-29 12:12:04 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=1352\n2026-09-29 13:15:15 [AUTH] sshd[1425]: Accepted password for system from 198.51.100.4 port 22225\n2026-09-29 13:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 13:21:37 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=5ms\n2026-09-29 13:24:48 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=1444\n2026-09-29 13:27:59 [AUTH] sshd[1429]: Accepted password for operator from 192.168.1.55 port 22229\n2026-09-29 13:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 13:33:21 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=9ms\n2026-09-29 13:36:32 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=1536\n2026-09-29 13:39:43 [AUTH] sshd[1433]: Accepted password for network_svc from 203.0.113.19 port 22233\n2026-09-29 13:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 13:45:05 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=5ms\n2026-09-29 13:48:16 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=1628\n2026-09-29 13:51:27 [AUTH] sshd[1437]: Accepted password for system from 10.0.0.12 port 22237\n2026-09-29 13:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 13:57:49 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=9ms\n2026-09-29 13:00:00 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 404 bytes=1720\n2026-09-29 13:03:11 [AUTH] sshd[1441]: Accepted password for operator from 192.168.10.33 port 22241\n2026-09-29 13:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 13:09:33 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=5ms\n2026-09-29 13:12:44 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1812\n2026-09-29 13:15:55 [AUTH] sshd[1445]: Accepted password for network_svc from 172.16.2.80 port 22245\n2026-09-29 13:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 13:21:17 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=9ms\n2026-09-29 13:24:28 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=1904\n2026-09-29 13:27:39 [AUTH] sshd[1449]: Accepted password for system from 192.168.1.14 port 22249\n2026-09-29 13:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 13:33:01 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=5ms\n2026-09-29 13:36:12 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=1996\n2026-09-29 13:39:23 [AUTH] sshd[1453]: Accepted password for operator from 198.51.100.4 port 22253\n2026-09-29 13:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 13:45:45 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=9ms\n2026-09-29 13:48:56 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2088\n2026-09-29 13:51:07 [AUTH] sshd[1457]: Accepted password for network_svc from 192.168.1.55 port 22257\n2026-09-29 13:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 13:57:29 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=5ms\n2026-09-29 13:00:40 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 404 bytes=2180\n2026-09-29 13:03:51 [AUTH] sshd[1461]: Accepted password for system from 203.0.113.19 port 22261\n2026-09-29 13:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 13:09:13 [SYS] healthcheck_daemon[213]: cluster heartbeat status=OK ping=9ms\n2026-09-29 13:12:24 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=2272\n2026-09-29 13:15:35 [AUTH] sshd[1465]: Accepted password for operator from 10.0.0.12 port 22265\n2026-09-29 13:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 13:21:57 [SYS] healthcheck_daemon[217]: cluster heartbeat status=OK ping=5ms\n2026-09-29 13:24:08 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=2364\n2026-09-29 13:27:19 [AUTH] sshd[1469]: Accepted password for network_svc from 192.168.10.33 port 22269\n2026-09-29 14:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 14:33:41 [SYS] healthcheck_daemon[221]: cluster heartbeat status=OK ping=9ms\n2026-09-29 14:36:52 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=2456\n2026-09-29 14:39:03 [AUTH] sshd[1473]: Accepted password for system from 172.16.2.80 port 22273\n2026-09-29 14:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 14:45:25 [SYS] healthcheck_daemon[225]: cluster heartbeat status=OK ping=5ms\n2026-09-29 14:48:36 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=2548\n2026-09-29 14:51:47 [AUTH] sshd[1477]: Accepted password for operator from 192.168.1.14 port 22277\n2026-09-29 14:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 14:57:09 [SYS] healthcheck_daemon[229]: cluster heartbeat status=OK ping=9ms\n2026-09-29 14:00:20 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 404 bytes=2640\n2026-09-29 14:03:31 [AUTH] sshd[1481]: Accepted password for network_svc from 198.51.100.4 port 22281\n2026-09-29 14:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 14:09:53 [SYS] healthcheck_daemon[233]: cluster heartbeat status=OK ping=5ms\n2026-09-29 14:12:04 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2732\n2026-09-29 14:15:15 [AUTH] sshd[1485]: Accepted password for system from 192.168.1.55 port 22285\n2026-09-29 14:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 14:21:37 [SYS] healthcheck_daemon[237]: cluster heartbeat status=OK ping=9ms\n2026-09-29 14:24:48 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=2824\n2026-09-29 14:27:59 [AUTH] sshd[1489]: Accepted password for operator from 203.0.113.19 port 22289\n2026-09-29 14:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 14:33:21 [SYS] healthcheck_daemon[241]: cluster heartbeat status=OK ping=5ms\n2026-09-29 14:36:32 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=2916\n2026-09-29 14:39:43 [AUTH] sshd[1493]: Accepted password for network_svc from 10.0.0.12 port 22293\n2026-09-29 14:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 14:45:05 [SYS] healthcheck_daemon[245]: cluster heartbeat status=OK ping=9ms\n2026-09-29 14:48:16 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3008\n2026-09-29 14:51:27 [AUTH] sshd[1497]: Accepted password for system from 192.168.10.33 port 22297\n2026-09-29 14:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 14:57:49 [SYS] healthcheck_daemon[249]: cluster heartbeat status=OK ping=5ms\n2026-09-29 14:00:00 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 404 bytes=3100\n2026-09-29 14:03:11 [AUTH] sshd[1501]: Accepted password for operator from 172.16.2.80 port 22301\n2026-09-29 14:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 14:09:33 [SYS] healthcheck_daemon[203]: cluster heartbeat status=OK ping=9ms\n2026-09-29 14:12:44 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3192\n2026-09-29 14:15:55 [AUTH] sshd[1505]: Accepted password for network_svc from 192.168.1.14 port 22305\n2026-09-29 14:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 14:21:17 [SYS] healthcheck_daemon[207]: cluster heartbeat status=OK ping=5ms\n2026-09-29 14:24:28 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=3284\n2026-09-29 14:27:39 [AUTH] sshd[1509]: Accepted password for system from 198.51.100.4 port 22309\n2026-09-29 14:05:39 [TRACE] decoy_buffer: legacy_string=\"FLAG{FALSE_LEAD_KEEP_LOOKING}\"\n2026-09-29 14:33:01 [SYS] healthcheck_daemon[211]: cluster heartbeat status=OK ping=9ms\n2026-09-29 14:36:12 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=3376\n2026-09-29 14:39:23 [AUTH] sshd[1513]: Accepted password for operator from 192.168.1.55 port 22313\n2026-09-29 14:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 15:45:45 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=5ms\n2026-09-29 15:48:56 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=3468\n2026-09-29 15:51:07 [AUTH] sshd[1517]: Accepted password for network_svc from 203.0.113.19 port 22317\n2026-09-29 15:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 15:57:29 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=9ms\n2026-09-29 15:00:40 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 404 bytes=3560\n2026-09-29 15:03:51 [AUTH] sshd[1521]: Accepted password for system from 10.0.0.12 port 22321\n2026-09-29 15:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 15:09:13 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=5ms\n2026-09-29 15:12:24 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3652\n2026-09-29 15:15:35 [AUTH] sshd[1525]: Accepted password for operator from 192.168.10.33 port 22325\n2026-09-29 15:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 15:21:57 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=9ms\n2026-09-29 15:24:08 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=3744\n2026-09-29 15:27:19 [AUTH] sshd[1529]: Accepted password for network_svc from 172.16.2.80 port 22329\n2026-09-29 15:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 15:33:41 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=5ms\n2026-09-29 15:36:52 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3836\n2026-09-29 15:39:03 [AUTH] sshd[1533]: Accepted password for system from 192.168.1.14 port 22333\n2026-09-29 15:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443\n2026-09-29 15:45:25 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=9ms\n2026-09-29 15:48:36 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=3928\n2026-09-29 15:51:47 [AUTH] sshd[1537]: Accepted password for operator from 198.51.100.4 port 22337\n2026-09-29 15:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443\n2026-09-29 15:57:09 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=5ms\n2026-09-29 15:00:20 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 404 bytes=4020\n2026-09-29 15:03:31 [AUTH] sshd[1541]: Accepted password for network_svc from 192.168.1.55 port 22341\n2026-09-29 15:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443\n2026-09-29 15:09:53 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=9ms\n2026-09-29 15:12:04 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=4112\n2026-09-29 15:15:15 [AUTH] sshd[1545]: Accepted password for system from 203.0.113.19 port 22345\n2026-09-29 15:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443\n2026-09-29 15:21:37 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=5ms\n2026-09-29 15:24:48 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=204\n2026-09-29 15:27:59 [AUTH] sshd[1549]: Accepted password for operator from 10.0.0.12 port 22349\n2026-09-29 15:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443\n2026-09-29 15:33:21 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=9ms\n2026-09-29 15:36:32 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=296\n2026-09-29 15:39:43 [AUTH] sshd[1553]: Accepted password for network_svc from 192.168.10.33 port 22353\n2026-09-29 15:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443\n2026-09-29 15:45:05 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=5ms\n2026-09-29 15:48:16 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=388\n2026-09-29 15:51:27 [AUTH] sshd[1557]: Accepted password for system from 172.16.2.80 port 22357\n2026-09-29 15:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443\n2026-09-29 15:57:49 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=9ms";
+
+    function downloadLevel2() {
+      if (!solved[0]) {
+        alert('Level 2 is locked! Solve Level 1 first.');
+        return;
+      }
+      const blob = new Blob([level2File], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'level2_challenge.txt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    }
+
+    const applePngData = "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";
+
+    function downloadAppleImage() {
+      if (!solved[3]) {
+        alert('Level 5 is locked! Solve previous levels first.');
+        return;
+      }
+      const byteChars = atob(applePngData);
+      const byteNumbers = new Array(byteChars.length);
+      for (let i = 0; i < byteChars.length; i++) {
+        byteNumbers[i] = byteChars.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/png' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'challenge_apple.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    }
+  </script>
+  </body>
+
+</html>

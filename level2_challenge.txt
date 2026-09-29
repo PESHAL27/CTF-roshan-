@@ -1,0 +1,360 @@
+================================================================================
+CYBERTHON ARCHIVE • SYSTEM ACCESS & AUDIT LOG DUMP
+HOST: CAMPUS-SRV-CORE-01 | LOG DATE: 2026-09-29 | LEVEL 2 CHALLENGE FILE
+================================================================================
+INVESTIGATION NOTE FOR 1ST YEAR CTF OPERATIVES:
+This log file records network traffic, user authentications, and system events.
+Beware: The system contains CANARY HONEYPOT FLAGS designed to catch lazy searchers.
+If you simply search for "FLAG", you will only find fake decoy flags!
+
+MISSION CLUE:
+Locate the confidential audit record associated with: user=shadow_agent
+where STATUS=CONFIDENTIAL. The authentic flag is stored in the Base64 payload.
+Decode the Base64 string to find the real flag.
+================================================================================
+
+2026-09-29 08:45:45 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=9ms
+2026-09-29 08:48:56 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=568
+2026-09-29 08:51:07 [AUTH] sshd[1217]: Accepted password for network_svc from 192.168.10.33 port 22017
+2026-09-29 08:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 08:57:29 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=5ms
+2026-09-29 08:00:40 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 404 bytes=660
+2026-09-29 08:03:51 [AUTH] sshd[1221]: Accepted password for system from 172.16.2.80 port 22021
+2026-09-29 08:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 08:09:13 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=9ms
+2026-09-29 08:12:24 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=752
+2026-09-29 08:15:35 [AUTH] sshd[1225]: Accepted password for operator from 192.168.1.14 port 22025
+2026-09-29 08:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 08:21:57 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=5ms
+2026-09-29 08:24:08 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=844
+2026-09-29 08:27:19 [AUTH] sshd[1229]: Accepted password for network_svc from 198.51.100.4 port 22029
+2026-09-29 08:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 08:33:41 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=9ms
+2026-09-29 08:36:52 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=936
+2026-09-29 08:39:03 [AUTH] sshd[1233]: Accepted password for system from 192.168.1.55 port 22033
+2026-09-29 08:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 08:45:25 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=5ms
+2026-09-29 08:48:36 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=1028
+2026-09-29 08:51:47 [AUTH] sshd[1237]: Accepted password for operator from 203.0.113.19 port 22037
+2026-09-29 08:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 08:57:09 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=9ms
+2026-09-29 08:00:20 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 404 bytes=1120
+2026-09-29 08:03:31 [AUTH] sshd[1241]: Accepted password for network_svc from 10.0.0.12 port 22041
+2026-09-29 08:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 08:09:53 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=5ms
+2026-09-29 08:12:04 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=1212
+2026-09-29 09:15:15 [AUTH] sshd[1245]: Accepted password for system from 192.168.10.33 port 22045
+2026-09-29 09:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 09:21:37 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=9ms
+2026-09-29 09:24:48 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1304
+2026-09-29 09:27:59 [AUTH] sshd[1249]: Accepted password for operator from 172.16.2.80 port 22049
+2026-09-29 09:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 09:33:21 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=5ms
+2026-09-29 09:36:32 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=1396
+2026-09-29 09:39:43 [AUTH] sshd[1253]: Accepted password for network_svc from 192.168.1.14 port 22053
+2026-09-29 09:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 09:45:05 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=9ms
+2026-09-29 09:48:16 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=1488
+2026-09-29 09:51:27 [AUTH] sshd[1257]: Accepted password for system from 198.51.100.4 port 22057
+2026-09-29 09:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 09:57:49 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=5ms
+2026-09-29 09:00:00 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 404 bytes=1580
+2026-09-29 09:03:11 [AUTH] sshd[1261]: Accepted password for operator from 192.168.1.55 port 22061
+2026-09-29 09:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 09:09:33 [SYS] healthcheck_daemon[213]: cluster heartbeat status=OK ping=9ms
+2026-09-29 09:12:44 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=1672
+2026-09-29 08:14:22 [DEBUG] test_canary_01: fake_flag="FLAG{TRY_AGAIN_AMATEUR_DECOY}"
+2026-09-29 09:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 09:21:17 [SYS] healthcheck_daemon[217]: cluster heartbeat status=OK ping=5ms
+2026-09-29 09:24:28 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=1764
+2026-09-29 09:27:39 [AUTH] sshd[1269]: Accepted password for system from 10.0.0.12 port 22069
+2026-09-29 09:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 09:33:01 [SYS] healthcheck_daemon[221]: cluster heartbeat status=OK ping=9ms
+2026-09-29 09:36:12 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=1856
+2026-09-29 09:39:23 [AUTH] sshd[1273]: Accepted password for operator from 192.168.10.33 port 22073
+2026-09-29 09:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 09:45:45 [SYS] healthcheck_daemon[225]: cluster heartbeat status=OK ping=5ms
+2026-09-29 09:48:56 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1948
+2026-09-29 09:51:07 [AUTH] sshd[1277]: Accepted password for network_svc from 172.16.2.80 port 22077
+2026-09-29 09:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 09:57:29 [SYS] healthcheck_daemon[229]: cluster heartbeat status=OK ping=9ms
+2026-09-29 09:00:40 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 404 bytes=2040
+2026-09-29 09:03:51 [AUTH] sshd[1281]: Accepted password for system from 192.168.1.14 port 22081
+2026-09-29 09:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 09:09:13 [SYS] healthcheck_daemon[233]: cluster heartbeat status=OK ping=5ms
+2026-09-29 09:12:24 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=2132
+2026-09-29 09:15:35 [AUTH] sshd[1285]: Accepted password for operator from 198.51.100.4 port 22085
+2026-09-29 09:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 09:21:57 [SYS] healthcheck_daemon[237]: cluster heartbeat status=OK ping=9ms
+2026-09-29 09:24:08 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2224
+2026-09-29 09:27:19 [AUTH] sshd[1289]: Accepted password for network_svc from 192.168.1.55 port 22089
+2026-09-29 10:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 10:33:41 [SYS] healthcheck_daemon[241]: cluster heartbeat status=OK ping=5ms
+2026-09-29 10:36:52 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=2316
+2026-09-29 10:39:03 [AUTH] sshd[1293]: Accepted password for system from 203.0.113.19 port 22093
+2026-09-29 10:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 10:45:25 [SYS] healthcheck_daemon[245]: cluster heartbeat status=OK ping=9ms
+2026-09-29 10:48:36 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=2408
+2026-09-29 10:51:47 [AUTH] sshd[1297]: Accepted password for operator from 10.0.0.12 port 22097
+2026-09-29 10:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 10:57:09 [SYS] healthcheck_daemon[249]: cluster heartbeat status=OK ping=5ms
+2026-09-29 10:00:20 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 404 bytes=2500
+2026-09-29 10:03:31 [AUTH] sshd[1301]: Accepted password for network_svc from 192.168.10.33 port 22101
+2026-09-29 10:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 10:09:53 [SYS] healthcheck_daemon[203]: cluster heartbeat status=OK ping=9ms
+2026-09-29 10:12:04 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=2592
+2026-09-29 10:15:15 [AUTH] sshd[1305]: Accepted password for system from 172.16.2.80 port 22105
+2026-09-29 10:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 10:21:37 [SYS] healthcheck_daemon[207]: cluster heartbeat status=OK ping=5ms
+2026-09-29 10:24:48 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=2684
+2026-09-29 10:27:59 [AUTH] sshd[1309]: Accepted password for operator from 192.168.1.14 port 22109
+2026-09-29 10:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 10:33:21 [SYS] healthcheck_daemon[211]: cluster heartbeat status=OK ping=9ms
+2026-09-29 10:36:32 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=2776
+2026-09-29 10:39:43 [AUTH] sshd[1313]: Accepted password for network_svc from 198.51.100.4 port 22113
+2026-09-29 10:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 10:45:05 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=5ms
+2026-09-29 10:48:16 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2868
+2026-09-29 10:51:27 [AUTH] sshd[1317]: Accepted password for system from 192.168.1.55 port 22117
+2026-09-29 10:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 10:57:49 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=9ms
+2026-09-29 10:00:00 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 404 bytes=2960
+2026-09-29 10:03:11 [AUTH] sshd[1321]: Accepted password for operator from 203.0.113.19 port 22121
+2026-09-29 10:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 10:09:33 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=5ms
+2026-09-29 10:12:44 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=3052
+2026-09-29 10:15:55 [AUTH] sshd[1325]: Accepted password for network_svc from 10.0.0.12 port 22125
+2026-09-29 10:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 10:21:17 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=9ms
+2026-09-29 10:24:28 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3144
+2026-09-29 10:27:39 [AUTH] sshd[1329]: Accepted password for system from 192.168.10.33 port 22129
+2026-09-29 10:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 10:33:01 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=5ms
+2026-09-29 10:36:12 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=3236
+2026-09-29 10:39:23 [AUTH] sshd[1333]: Accepted password for operator from 172.16.2.80 port 22133
+2026-09-29 10:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 11:45:45 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=9ms
+2026-09-29 11:48:56 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3328
+2026-09-29 11:51:07 [AUTH] sshd[1337]: Accepted password for network_svc from 192.168.1.14 port 22137
+2026-09-29 11:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 11:57:29 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=5ms
+2026-09-29 11:00:40 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 404 bytes=3420
+2026-09-29 11:03:51 [AUTH] sshd[1341]: Accepted password for system from 198.51.100.4 port 22141
+2026-09-29 11:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 11:09:13 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=9ms
+2026-09-29 11:12:24 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=3512
+2026-09-29 11:15:35 [AUTH] sshd[1345]: Accepted password for operator from 192.168.1.55 port 22145
+2026-09-29 11:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 11:21:57 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=5ms
+2026-09-29 11:24:08 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=3604
+2026-09-29 11:27:19 [AUTH] sshd[1349]: Accepted password for network_svc from 203.0.113.19 port 22149
+2026-09-29 11:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 11:33:41 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=9ms
+2026-09-29 11:36:52 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=3696
+2026-09-29 11:39:03 [AUTH] sshd[1353]: Accepted password for system from 10.0.0.12 port 22153
+2026-09-29 11:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 11:45:25 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=5ms
+2026-09-29 11:48:36 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3788
+2026-09-29 11:51:47 [AUTH] sshd[1357]: Accepted password for operator from 192.168.10.33 port 22157
+2026-09-29 11:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 11:57:09 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=9ms
+2026-09-29 11:00:20 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 404 bytes=3880
+2026-09-29 11:03:31 [AUTH] sshd[1361]: Accepted password for network_svc from 172.16.2.80 port 22161
+2026-09-29 11:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 11:09:53 [SYS] healthcheck_daemon[213]: cluster heartbeat status=OK ping=5ms
+2026-09-29 11:12:04 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3972
+2026-09-29 11:15:15 [AUTH] sshd[1365]: Accepted password for system from 192.168.1.14 port 22165
+2026-09-29 11:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 11:21:37 [SYS] healthcheck_daemon[217]: cluster heartbeat status=OK ping=9ms
+2026-09-29 11:24:48 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=4064
+2026-09-29 11:27:59 [AUTH] sshd[1369]: Accepted password for operator from 198.51.100.4 port 22169
+2026-09-29 11:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 11:33:21 [SYS] healthcheck_daemon[221]: cluster heartbeat status=OK ping=5ms
+2026-09-29 11:36:32 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=4156
+2026-09-29 11:39:43 [AUTH] sshd[1373]: Accepted password for network_svc from 192.168.1.55 port 22173
+2026-09-29 11:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 11:22:04 [WARN] intruder_trap: canary_probe="FLAG{HONEYPOT_DETECTED_NOT_HERE}"
+2026-09-29 11:48:16 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=248
+2026-09-29 11:51:27 [AUTH] sshd[1377]: Accepted password for system from 203.0.113.19 port 22177
+2026-09-29 11:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 11:57:49 [SYS] healthcheck_daemon[229]: cluster heartbeat status=OK ping=5ms
+2026-09-29 12:00:00 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 404 bytes=340
+2026-09-29 12:03:11 [AUTH] sshd[1381]: Accepted password for operator from 10.0.0.12 port 22181
+2026-09-29 12:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 12:09:33 [SYS] healthcheck_daemon[233]: cluster heartbeat status=OK ping=9ms
+2026-09-29 12:12:44 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=432
+2026-09-29 12:15:55 [AUTH] sshd[1385]: Accepted password for network_svc from 192.168.10.33 port 22185
+2026-09-29 12:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 12:21:17 [SYS] healthcheck_daemon[237]: cluster heartbeat status=OK ping=5ms
+2026-09-29 12:24:28 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=524
+2026-09-29 12:27:39 [AUTH] sshd[1389]: Accepted password for system from 172.16.2.80 port 22189
+2026-09-29 12:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 12:33:01 [SYS] healthcheck_daemon[241]: cluster heartbeat status=OK ping=9ms
+2026-09-29 12:36:12 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=616
+2026-09-29 12:39:23 [AUTH] sshd[1393]: Accepted password for operator from 192.168.1.14 port 22193
+2026-09-29 12:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 12:45:45 [SYS] healthcheck_daemon[245]: cluster heartbeat status=OK ping=5ms
+2026-09-29 12:48:56 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=708
+2026-09-29 12:51:07 [AUTH] sshd[1397]: Accepted password for network_svc from 198.51.100.4 port 22197
+2026-09-29 12:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 12:57:29 [SYS] healthcheck_daemon[249]: cluster heartbeat status=OK ping=9ms
+2026-09-29 12:00:40 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 404 bytes=800
+2026-09-29 12:03:51 [AUTH] sshd[1401]: Accepted password for system from 192.168.1.55 port 22201
+2026-09-29 12:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 12:09:13 [SYS] healthcheck_daemon[203]: cluster heartbeat status=OK ping=5ms
+2026-09-29 12:12:24 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=892
+2026-09-29 12:15:35 [AUTH] sshd[1405]: Accepted password for operator from 203.0.113.19 port 22205
+2026-09-29 12:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 12:21:57 [SYS] healthcheck_daemon[207]: cluster heartbeat status=OK ping=9ms
+2026-09-29 12:24:08 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=984
+2026-09-29 12:27:19 [AUTH] sshd[1409]: Accepted password for network_svc from 10.0.0.12 port 22209
+2026-09-29 12:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 12:33:41 [SYS] healthcheck_daemon[211]: cluster heartbeat status=OK ping=5ms
+2026-09-29 12:36:52 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=1076
+2026-09-29 12:39:03 [AUTH] sshd[1413]: Accepted password for system from 192.168.10.33 port 22213
+2026-09-29 12:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 12:45:25 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=9ms
+2026-09-29 12:48:36 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1168
+2026-09-29 12:51:47 [AUTH] sshd[1417]: Accepted password for operator from 172.16.2.80 port 22217
+2026-09-29 12:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 12:57:09 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=5ms
+2026-09-29 12:45:10 [AUDIT] user=shadow_agent STATUS=CONFIDENTIAL payload="RkxBR3tEMUdHMU5HX0QzM1BfSU5fTDBHU30="
+2026-09-29 12:03:31 [AUTH] sshd[1421]: Accepted password for network_svc from 192.168.1.14 port 22221
+2026-09-29 12:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 12:09:53 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=9ms
+2026-09-29 12:12:04 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=1352
+2026-09-29 13:15:15 [AUTH] sshd[1425]: Accepted password for system from 198.51.100.4 port 22225
+2026-09-29 13:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 13:21:37 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=5ms
+2026-09-29 13:24:48 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=1444
+2026-09-29 13:27:59 [AUTH] sshd[1429]: Accepted password for operator from 192.168.1.55 port 22229
+2026-09-29 13:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 13:33:21 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=9ms
+2026-09-29 13:36:32 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=1536
+2026-09-29 13:39:43 [AUTH] sshd[1433]: Accepted password for network_svc from 203.0.113.19 port 22233
+2026-09-29 13:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 13:45:05 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=5ms
+2026-09-29 13:48:16 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=1628
+2026-09-29 13:51:27 [AUTH] sshd[1437]: Accepted password for system from 10.0.0.12 port 22237
+2026-09-29 13:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 13:57:49 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=9ms
+2026-09-29 13:00:00 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 404 bytes=1720
+2026-09-29 13:03:11 [AUTH] sshd[1441]: Accepted password for operator from 192.168.10.33 port 22241
+2026-09-29 13:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 13:09:33 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=5ms
+2026-09-29 13:12:44 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=1812
+2026-09-29 13:15:55 [AUTH] sshd[1445]: Accepted password for network_svc from 172.16.2.80 port 22245
+2026-09-29 13:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 13:21:17 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=9ms
+2026-09-29 13:24:28 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=1904
+2026-09-29 13:27:39 [AUTH] sshd[1449]: Accepted password for system from 192.168.1.14 port 22249
+2026-09-29 13:30:50 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 13:33:01 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=5ms
+2026-09-29 13:36:12 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=1996
+2026-09-29 13:39:23 [AUTH] sshd[1453]: Accepted password for operator from 198.51.100.4 port 22253
+2026-09-29 13:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 13:45:45 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=9ms
+2026-09-29 13:48:56 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2088
+2026-09-29 13:51:07 [AUTH] sshd[1457]: Accepted password for network_svc from 192.168.1.55 port 22257
+2026-09-29 13:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 13:57:29 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=5ms
+2026-09-29 13:00:40 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 404 bytes=2180
+2026-09-29 13:03:51 [AUTH] sshd[1461]: Accepted password for system from 203.0.113.19 port 22261
+2026-09-29 13:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 13:09:13 [SYS] healthcheck_daemon[213]: cluster heartbeat status=OK ping=9ms
+2026-09-29 13:12:24 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=2272
+2026-09-29 13:15:35 [AUTH] sshd[1465]: Accepted password for operator from 10.0.0.12 port 22265
+2026-09-29 13:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 13:21:57 [SYS] healthcheck_daemon[217]: cluster heartbeat status=OK ping=5ms
+2026-09-29 13:24:08 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=2364
+2026-09-29 13:27:19 [AUTH] sshd[1469]: Accepted password for network_svc from 192.168.10.33 port 22269
+2026-09-29 14:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 14:33:41 [SYS] healthcheck_daemon[221]: cluster heartbeat status=OK ping=9ms
+2026-09-29 14:36:52 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=2456
+2026-09-29 14:39:03 [AUTH] sshd[1473]: Accepted password for system from 172.16.2.80 port 22273
+2026-09-29 14:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 14:45:25 [SYS] healthcheck_daemon[225]: cluster heartbeat status=OK ping=5ms
+2026-09-29 14:48:36 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=2548
+2026-09-29 14:51:47 [AUTH] sshd[1477]: Accepted password for operator from 192.168.1.14 port 22277
+2026-09-29 14:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 14:57:09 [SYS] healthcheck_daemon[229]: cluster heartbeat status=OK ping=9ms
+2026-09-29 14:00:20 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 404 bytes=2640
+2026-09-29 14:03:31 [AUTH] sshd[1481]: Accepted password for network_svc from 198.51.100.4 port 22281
+2026-09-29 14:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 14:09:53 [SYS] healthcheck_daemon[233]: cluster heartbeat status=OK ping=5ms
+2026-09-29 14:12:04 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=2732
+2026-09-29 14:15:15 [AUTH] sshd[1485]: Accepted password for system from 192.168.1.55 port 22285
+2026-09-29 14:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 14:21:37 [SYS] healthcheck_daemon[237]: cluster heartbeat status=OK ping=9ms
+2026-09-29 14:24:48 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=2824
+2026-09-29 14:27:59 [AUTH] sshd[1489]: Accepted password for operator from 203.0.113.19 port 22289
+2026-09-29 14:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 14:33:21 [SYS] healthcheck_daemon[241]: cluster heartbeat status=OK ping=5ms
+2026-09-29 14:36:32 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=2916
+2026-09-29 14:39:43 [AUTH] sshd[1493]: Accepted password for network_svc from 10.0.0.12 port 22293
+2026-09-29 14:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 14:45:05 [SYS] healthcheck_daemon[245]: cluster heartbeat status=OK ping=9ms
+2026-09-29 14:48:16 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3008
+2026-09-29 14:51:27 [AUTH] sshd[1497]: Accepted password for system from 192.168.10.33 port 22297
+2026-09-29 14:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 14:57:49 [SYS] healthcheck_daemon[249]: cluster heartbeat status=OK ping=5ms
+2026-09-29 14:00:00 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 404 bytes=3100
+2026-09-29 14:03:11 [AUTH] sshd[1501]: Accepted password for operator from 172.16.2.80 port 22301
+2026-09-29 14:06:22 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 14:09:33 [SYS] healthcheck_daemon[203]: cluster heartbeat status=OK ping=9ms
+2026-09-29 14:12:44 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3192
+2026-09-29 14:15:55 [AUTH] sshd[1505]: Accepted password for network_svc from 192.168.1.14 port 22305
+2026-09-29 14:18:06 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 14:21:17 [SYS] healthcheck_daemon[207]: cluster heartbeat status=OK ping=5ms
+2026-09-29 14:24:28 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=3284
+2026-09-29 14:27:39 [AUTH] sshd[1509]: Accepted password for system from 198.51.100.4 port 22309
+2026-09-29 14:05:39 [TRACE] decoy_buffer: legacy_string="FLAG{FALSE_LEAD_KEEP_LOOKING}"
+2026-09-29 14:33:01 [SYS] healthcheck_daemon[211]: cluster heartbeat status=OK ping=9ms
+2026-09-29 14:36:12 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 200 bytes=3376
+2026-09-29 14:39:23 [AUTH] sshd[1513]: Accepted password for operator from 192.168.1.55 port 22313
+2026-09-29 14:42:34 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 15:45:45 [SYS] healthcheck_daemon[215]: cluster heartbeat status=OK ping=5ms
+2026-09-29 15:48:56 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=3468
+2026-09-29 15:51:07 [AUTH] sshd[1517]: Accepted password for network_svc from 203.0.113.19 port 22317
+2026-09-29 15:54:18 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 15:57:29 [SYS] healthcheck_daemon[219]: cluster heartbeat status=OK ping=9ms
+2026-09-29 15:00:40 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 404 bytes=3560
+2026-09-29 15:03:51 [AUTH] sshd[1521]: Accepted password for system from 10.0.0.12 port 22321
+2026-09-29 15:06:02 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 15:09:13 [SYS] healthcheck_daemon[223]: cluster heartbeat status=OK ping=5ms
+2026-09-29 15:12:24 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=3652
+2026-09-29 15:15:35 [AUTH] sshd[1525]: Accepted password for operator from 192.168.10.33 port 22325
+2026-09-29 15:18:46 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 15:21:57 [SYS] healthcheck_daemon[227]: cluster heartbeat status=OK ping=9ms
+2026-09-29 15:24:08 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=3744
+2026-09-29 15:27:19 [AUTH] sshd[1529]: Accepted password for network_svc from 172.16.2.80 port 22329
+2026-09-29 15:30:30 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 15:33:41 [SYS] healthcheck_daemon[231]: cluster heartbeat status=OK ping=5ms
+2026-09-29 15:36:52 [HTTP] 172.16.2.80 GET /index.html HTTP/1.1 200 bytes=3836
+2026-09-29 15:39:03 [AUTH] sshd[1533]: Accepted password for system from 192.168.1.14 port 22333
+2026-09-29 15:42:14 [KERNEL] firewall-rule: ALLOW proto=TCP src=203.0.113.19 dst=192.168.10.33 dport=443
+2026-09-29 15:45:25 [SYS] healthcheck_daemon[235]: cluster heartbeat status=OK ping=9ms
+2026-09-29 15:48:36 [HTTP] 192.168.1.14 GET /index.html HTTP/1.1 200 bytes=3928
+2026-09-29 15:51:47 [AUTH] sshd[1537]: Accepted password for operator from 198.51.100.4 port 22337
+2026-09-29 15:54:58 [KERNEL] firewall-rule: ALLOW proto=TCP src=10.0.0.12 dst=192.168.10.33 dport=443
+2026-09-29 15:57:09 [SYS] healthcheck_daemon[239]: cluster heartbeat status=OK ping=5ms
+2026-09-29 15:00:20 [HTTP] 198.51.100.4 GET /index.html HTTP/1.1 404 bytes=4020
+2026-09-29 15:03:31 [AUTH] sshd[1541]: Accepted password for network_svc from 192.168.1.55 port 22341
+2026-09-29 15:06:42 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.10.33 dst=192.168.10.33 dport=443
+2026-09-29 15:09:53 [SYS] healthcheck_daemon[243]: cluster heartbeat status=OK ping=9ms
+2026-09-29 15:12:04 [HTTP] 192.168.1.55 GET /index.html HTTP/1.1 200 bytes=4112
+2026-09-29 15:15:15 [AUTH] sshd[1545]: Accepted password for system from 203.0.113.19 port 22345
+2026-09-29 15:18:26 [KERNEL] firewall-rule: ALLOW proto=TCP src=172.16.2.80 dst=192.168.10.33 dport=443
+2026-09-29 15:21:37 [SYS] healthcheck_daemon[247]: cluster heartbeat status=OK ping=5ms
+2026-09-29 15:24:48 [HTTP] 203.0.113.19 GET /index.html HTTP/1.1 200 bytes=204
+2026-09-29 15:27:59 [AUTH] sshd[1549]: Accepted password for operator from 10.0.0.12 port 22349
+2026-09-29 15:30:10 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.14 dst=192.168.10.33 dport=443
+2026-09-29 15:33:21 [SYS] healthcheck_daemon[201]: cluster heartbeat status=OK ping=9ms
+2026-09-29 15:36:32 [HTTP] 10.0.0.12 GET /index.html HTTP/1.1 200 bytes=296
+2026-09-29 15:39:43 [AUTH] sshd[1553]: Accepted password for network_svc from 192.168.10.33 port 22353
+2026-09-29 15:42:54 [KERNEL] firewall-rule: ALLOW proto=TCP src=198.51.100.4 dst=192.168.10.33 dport=443
+2026-09-29 15:45:05 [SYS] healthcheck_daemon[205]: cluster heartbeat status=OK ping=5ms
+2026-09-29 15:48:16 [HTTP] 192.168.10.33 GET /index.html HTTP/1.1 200 bytes=388
+2026-09-29 15:51:27 [AUTH] sshd[1557]: Accepted password for system from 172.16.2.80 port 22357
+2026-09-29 15:54:38 [KERNEL] firewall-rule: ALLOW proto=TCP src=192.168.1.55 dst=192.168.10.33 dport=443
+2026-09-29 15:57:49 [SYS] healthcheck_daemon[209]: cluster heartbeat status=OK ping=9ms
